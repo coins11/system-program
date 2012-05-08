@@ -1,6 +1,0 @@
-open build/Common
-open build/C
-
-DefineCommandVars()
-
-.SUBDIRS: . 2012-04-25

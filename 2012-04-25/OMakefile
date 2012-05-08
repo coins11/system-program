@@ -1,8 +1,0 @@
-CFLAGS += -g
-
-CProgram(shell, shell)
-
-report: ../lib.m4 report.m4 shell
-	m4 report.m4 | nkf -W8 -e > report
-
-.DEFAULT: report
