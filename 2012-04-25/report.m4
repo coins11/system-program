@@ -1,13 +1,13 @@
 include(`../lib.m4')dnl
-define(`runshell',`dnl
+define(`run210',`dnl
 syscmd(`echo "> $1"')dnl
-syscmd(`echo "$1" | ./shell | sed "s/^/< /"')dnl
+syscmd(`echo "$1" | ./210 | sed "s/^/< /"')dnl
 ')dnl
 header(`2', `210', `文字、文字列、標準入出力')dnl
 
 今回の課題では練習問題210を選択した。以下にソースコードを示す。
 
-source(`shell.c')dnl
+source(`210.c')dnl
 
 このプログラムの実装は、再帰下降パーサを素直に実装したものである。ただし、|, <,
 > を prefix としてコマンドやファイル名を読むために、ungetc を用いて入力ストリー
@@ -19,13 +19,13 @@ source(`shell.c')dnl
 以下に、いくつかの入出力例を示す。"> "で始まる行は入力を示し、"< "で始まる行は出
 力を示す。
 
-runshell(`a | b |c d | e| f g')dnl
+run210(`a | b |c d | e| f g')dnl
 
-runshell(`a | b c| d < input> output')dnl
+run210(`a | b c| d < input> output')dnl
 
-runshell(`a | b c> output |d < input')dnl
+run210(`a | b c> output |d < input')dnl
 
-runshell(`a < input1| b c |d < input2> output')dnl
+run210(`a < input1| b c |d < input2> output')dnl
 
 3番目の実行例より、課題で求められている1つ目の要件「異なるリダイレクション記号の
 出現順序が変わっても対応できるように」を満たしていることが分かる。

@@ -20,8 +20,8 @@ int read_command(char **r, FILE *input)
     size_t bufsize = 0;
     while(1){
         int ch = getc(input);
-        if((bufsize&15) == 0){
-            char *tmp = realloc(buf, bufsize+16);
+        if(!(bufsize&0xfff)){
+            char *tmp = realloc(buf, bufsize+0x1000);
             if(!tmp) goto ERR;
             buf = tmp;
         }
@@ -47,8 +47,8 @@ int read_filename(char **r, FILE *input)
     size_t bufsize = 0;
     while(1){
         int ch = getc(input);
-        if((bufsize&15) == 0){
-            char *tmp = realloc(buf, bufsize+16);
+        if(!(bufsize&0xfff)){
+            char *tmp = realloc(buf, bufsize+0x1000);
             if(!tmp) goto ERR;
             buf = tmp;
         }
@@ -97,9 +97,9 @@ int main(void)
         switch(prefix){
         case 0:
             read_command(&str, stdin);
-            if((commands_size&15) == 0){
+            if(!(commands_size&0xfff)){
                 char **tmp = realloc(commands,
-                    sizeof(char *)*(commands_size+16));
+                    sizeof(char *)*(commands_size+0x1000));
                 if(!tmp) goto ERR;
                 commands = tmp;
             }
@@ -118,12 +118,19 @@ int main(void)
         }
     }
     printf("commands:\n");
-    for(i = 0; i != commands_size; i++) printf("%s\n", commands[i]);
+    for(i = 0; i != commands_size; i++){
+        printf("%s\n", commands[i]);
+        free(commands[i]);
+    }
     input_name && printf("input: %s\n", input_name);
     output_name && printf("output: %s\n", output_name);
+    free(commands);
+    free(input_name);
+    free(output_name);
     return 0;
 ERR:
     for(i = 0; i != commands_size; i++) free(commands[i]);
+    free(commands);
     free(input_name);
     free(output_name);
     fputs("An error has occurred.\n", stdout);
