@@ -3,4 +3,4 @@ open build/C
 
 DefineCommandVars()
 
-.SUBDIRS: . 2012-04-25
+.SUBDIRS: . 2012-04-18 2012-04-25 2012-05-02

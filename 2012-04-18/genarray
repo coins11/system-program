@@ -1,0 +1,3 @@
+#!/bin/zsh
+: > array
+repeat 100000 echo "$RANDOM," >> array
