@@ -1,6 +1,7 @@
 #include<unistd.h>
 
-pid_t fork_interactive(int *pipe_fd){
+pid_t fork_interactive(int *pipe_fd)
+{
     int pipe_fd1[2], pipe_fd2[2];
     pid_t pid;
     if(pipe(pipe_fd1) < 0 || pipe(pipe_fd2) < 0) return -1;
@@ -12,7 +13,8 @@ pid_t fork_interactive(int *pipe_fd){
     return pid;
 }
 
-ssize_t writeb(int fd, char c){
+ssize_t writeb(int fd, char c)
+{
     char buf[1] = {c};
     return write(fd, buf, 1);
 }
@@ -26,11 +28,10 @@ int main(int argc, char** argv)
     onum = atoi(argv[1]);
     pnum = atoi(argv[2]);
     if(onum < 0 || pnum < 1) return -1;
-    while(pcount != pnum){
+    for(; pcount != pnum; pcount++){
         if(pid = fork_interactive(pipe_fd+2)) break;
         pipe_fd[0] = pipe_fd[2];
         pipe_fd[1] = pipe_fd[3];
-        pcount++;
     }
     if(pid == -1) return -1;
     if(!pcount){
