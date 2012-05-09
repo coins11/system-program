@@ -36,10 +36,11 @@ int main(int argc, char** argv)
     if(pid == -1) return -1;
     if(!pcount){
         for(; ocount != onum; ocount++){
-            if(writeb(0, '0'+ocount%10) < 0 ||
-                writeb(pipe_fd[2], 'A'+ocount%26) < 0)
-                return -1;
-            read(pipe_fd[3], buf, 1);
+            if(ocount&1){
+                if(writeb(pipe_fd[2], 'A'+(ocount>>1)%26) < 0) return -1;
+                read(pipe_fd[3], buf, 1);
+            }
+            else if(writeb(0, '0'+(ocount>>1)%10) < 0) return -1;
         }
         if(writeb(0, '\n') < 0) return -1;
     }
