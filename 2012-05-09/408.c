@@ -37,12 +37,13 @@ int main(int argc, char** argv)
     if(!pcount){
         for(; ocount != onum; ocount++){
             if(ocount&1){
-                if(writeb(pipe_fd[2], 'A'+(ocount>>1)%26) < 0) return -1;
+                if(writeb(pipe_fd[2], 'A'+(ocount>>1)%26) < 0)
+                    return -1;
                 read(pipe_fd[3], buf, 1);
             }
-            else if(writeb(0, '0'+(ocount>>1)%10) < 0) return -1;
+            else if(writeb(1, '0'+(ocount>>1)%10) < 0) return -1;
         }
-        if(writeb(0, '\n') < 0) return -1;
+        if(writeb(1, '\n') < 0) return -1;
     }
     else{
         for(; read(pipe_fd[0], buf, 1) > 0; ocount++){
@@ -50,7 +51,7 @@ int main(int argc, char** argv)
                 if(write(pipe_fd[2], buf, 1) < 0) return -1;
                 read(pipe_fd[3], buf, 1);
             }
-            else if(write(0, buf, 1) < 0) return -1;
+            else if(write(1, buf, 1) < 0) return -1;
             if(write(pipe_fd[1], buf, 1) < 0) return -1;
         }
     }
