@@ -133,6 +133,6 @@ ERR:
     free(commands);
     free(input_name);
     free(output_name);
-    fputs("An error has occurred.\n", stdout);
+    fputs("An error has occurred.\n", stderr);
     return -1;
 }
