@@ -1,3 +1,9 @@
+define(
+`exponential',
+`ifelse(`$2', `0', `1', `eval(`$1 * 'exponential($1, decr(`$2')))')')
+
+define(`allocation_unit', `12')
+
 #include<ctype.h>
 #include<stdio.h>
 #include<stdlib.h>
@@ -7,7 +13,7 @@ int drop_spaces(FILE *input)
     while(1){
         int ch = getc(input);
         if(ferror(input)) return -1;
-        if(!isspace(ch) || ch == '\n'){
+        if(!isblank(ch)){
             ungetc(ch, input);
             return 0;
         }
@@ -20,16 +26,19 @@ int read_command(char **r, FILE *input)
     size_t bufsize = 0;
     while(1){
         int ch = getc(input);
-        if(!(bufsize&0xfff)){
-            char *tmp = realloc(buf, bufsize+0x1000);
+        if(!(bufsize&
+            decr(exponential(`2', allocation_unit)))){
+            char *tmp = realloc(buf, bufsize+
+                exponential(`2', allocation_unit));
             if(!tmp) goto ERR;
             buf = tmp;
         }
         if(ferror(input)) goto ERR;
-        if(isalnum(ch) || isspace(ch) && ch != '\n') buf[bufsize] = ch;
+        if(isalnum(ch) || isblank(ch)) buf[bufsize] = ch;
         else{
             ungetc(ch, input);
-            for(; 1 <= bufsize && isspace(buf[bufsize-1]); bufsize--);
+            for(; 1 <= bufsize && isblank(buf[bufsize-1]);
+                bufsize--);
             buf[bufsize] = '\0';
             *r = buf;
             return 0;
@@ -47,8 +56,10 @@ int read_filename(char **r, FILE *input)
     size_t bufsize = 0;
     while(1){
         int ch = getc(input);
-        if(!(bufsize&0xfff)){
-            char *tmp = realloc(buf, bufsize+0x1000);
+        if(!(bufsize&
+            decr(exponential(`2', allocation_unit)))){
+            char *tmp = realloc(buf, bufsize+
+                exponential(`2', allocation_unit));
             if(!tmp) goto ERR;
             buf = tmp;
         }
@@ -97,9 +108,11 @@ int main(void)
         switch(prefix){
         case 0:
             read_command(&str, stdin);
-            if(!(commands_size&0xfff)){
+            if(!(commands_size&
+                decr(exponential(`2', allocation_unit)))){
                 char **tmp = realloc(commands,
-                    sizeof(char *)*(commands_size+0x1000));
+                    sizeof(char *)*(commands_size+
+                    exponential(`2', allocation_unit)));
                 if(!tmp) goto ERR;
                 commands = tmp;
             }
