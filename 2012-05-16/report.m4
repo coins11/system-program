@@ -13,10 +13,14 @@ source(`505.c')dnl
 以下に実行例を示す。
 
 $ ./505
-timeout
-$ ./505
-test
+Tue May 22 16:02:49 2012
+a
+Tue May 22 16:02:52 2012
 success to read
+$ ./505
+Tue May 22 16:02:54 2012
+Tue May 22 16:02:59 2012
+timeout
 
 正しく実行できていることが分かる。
 
