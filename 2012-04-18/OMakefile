@@ -11,7 +11,7 @@ CProgram(105-1, 105-1)
 105-3: 105-3.c array
 	$(CC) $(CFLAGS) -o 105-3 105-3.c
 
-report: ../lib.m4 report.m4 genarray 105-1 105-2 105-3
+report: ../lib.m4 report.m4 genarray 105-1.c 105-2.c 105-3.c 105-1 105-2 105-3
 	m4 report.m4 | nkf -W8 -e > report
 
 .DEFAULT: report

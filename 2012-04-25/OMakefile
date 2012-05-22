@@ -5,7 +5,7 @@ CFLAGS += -g
 
 CProgram(210, 210)
 
-report: ../lib.m4 report.m4 210 210.c.m4
+report: ../lib.m4 report.m4 210.c.m4 210
 	m4 report.m4 | nkf -W8 -e > report
 
 .DEFAULT: report

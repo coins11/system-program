@@ -12,6 +12,7 @@ int mygetchar(struct timeval *timeout)
     if(retval == -1) return -3;
     if(retval){
         int c = getchar();
+        if(ferror(stdin)) return -3;
         return c == EOF ? -1 : c;
     }
     else return -2;
