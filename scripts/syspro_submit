@@ -1,0 +1,21 @@
+#!/bin/zsh
+
+LANG=ja_JP.eucjp
+
+# your username and password of unified authentication
+authinfo=username:password
+
+if [ -z $1 ]; then
+    echo "Usage: `basename $0` file" 1>&2
+    exit 1
+fi
+
+cat $1 | sed "1,5! d ; s/^.*: \(.*\)$/\1/" | \
+    for var in sid name anumber pnumber subject ; read $var
+
+curl --basic -u "$authinfo" \
+    -F ano="$anumber" \
+    -F subject="$subject" \
+    -F rfile="`cat $1`" \
+    -F event=submit \
+    https://www.coins.tsukuba.ac.jp/~syspro/2012/report.cgi

@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+# your username and password of unified authentication
+authinfo=username:password
+
+server=`coins-imac`
+ssh -S ~/.ssh/master-$$ $server -M -f -N -D localhost:10080 2>/dev/null 1>&2
+
+curl --basic -u "$authinfo" \
+    -x socks5h://localhost:10080 \
+    https://www.coins.tsukuba.ac.jp/~syspro/2012/present.cgi
+
+ssh -S ~/.ssh/master-$$ $server -O exit 1>/dev/null 2>/dev/null
