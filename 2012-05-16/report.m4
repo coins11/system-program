@@ -13,15 +13,19 @@ source(`505.c')dnl
 以下に実行例を示す。
 
 $ ./505
-Tue May 22 16:02:49 2012
-a
-Tue May 22 16:02:52 2012
+Wed May 23 02:14:39 2012
+Wed May 23 02:14:44 2012
+timeout
+$ ./505
+Wed May 23 02:14:45 2012
+test
+Wed May 23 02:14:46 2012
 success to read
 $ ./505
-Tue May 22 16:02:54 2012
-Tue May 22 16:02:59 2012
-timeout
+Wed May 23 02:16:55 2012
+Wed May 23 02:16:56 2012
+success to read
 
-正しく実行できていることが分かる。
+最後の実行例は、^D を入力したものである。正しく実行できていることが分かる。
 
 footer()dnl

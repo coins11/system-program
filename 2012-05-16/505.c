@@ -10,7 +10,10 @@ int mygetchar(struct timeval *timeout)
     FD_SET(0, &rfds);
     retval = select(1, &rfds, NULL, NULL, timeout);
     if(retval == -1) return -3;
-    if(retval) return getchar();
+    if(retval){
+        int c = getchar();
+        return c == EOF ? -1 : c;
+    }
     else return -2;
 }
 
@@ -25,7 +28,7 @@ int main(void)
     c = mygetchar(&timeout);
     time(&t);
     fputs(ctime(&t), stdout);
-    if(c == -1) return -1;
+    if(c == -3) return -1;
     if(c == -2) printf("timeout\n");
     else printf("success to read\n");
     return 0;
