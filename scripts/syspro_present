@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+LANG=ja_JP.eucjp
+
 # your username and password of unified authentication
 authinfo=username:password
 
