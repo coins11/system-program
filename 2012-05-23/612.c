@@ -10,19 +10,19 @@ typedef struct {
 } parseduri_t;
 
 /*
-    int uri_parser(const char *string, parseduri_t **uri_);
-    description: Parses string `string' as URI, and stores result in `*uri_'.
+    int uri_parser(const char *string, parseduri_t **dest);
+    description: Parses string `string' as URI, and stores result in `*dest'.
     return value:
         0: success to parse
         -1: memory allocation error
         -2: parsing error
 */
-int uri_parser(const char *string, parseduri_t **uri_)
+int uri_parser(const char *string, parseduri_t **dest)
 {
     size_t iter;
     parseduri_t *uri;
 
-    assert(uri_);
+    assert(dest);
 
     uri = malloc(sizeof(parseduri_t));
     if(!uri) return -1;
@@ -58,15 +58,19 @@ int uri_parser(const char *string, parseduri_t **uri_)
     }
     else uri->port = 80;
     /* path */
-    if(*string == '/') string++;
-    else if(*string != '\0'){
+    if(*string != '/' && *string != '\0'){
         free(uri->hostname);
         free(uri);
         return -2;
     }
-    uri->path = strdup(string);
+    uri->path = strdup(*string == '\0' ? "/" : string);
+    if(!uri->path){
+        free(uri->hostname);
+        free(uri);
+        return -1;
+    }
 
-    *uri_ = uri;
+    *dest = uri;
     return 0;
 }
 
