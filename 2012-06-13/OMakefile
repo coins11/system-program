@@ -1,0 +1,8 @@
+CFLAGS += -g -lgdbm_compat
+
+CProgram(913, 913)
+
+report: ../lib.m4 report.m4 913.c
+	m4 report.m4 | nkf -W8 -e > report
+
+.DEFAULT: report
